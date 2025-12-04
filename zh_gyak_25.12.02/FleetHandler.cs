@@ -54,19 +54,22 @@ namespace zh_gyak_25._12._02
 
         public Ship[] GetShipsGroupedByRisk()
         {
+            int i = 0;
             Ship[] sortedFleet = new Ship[Fleet.Count()];
             foreach (Ship ship in Fleet)
             {
                 if ((ship.GetShipClass().Equals(ShipClassType.Cargo) || ship.GetShipClass().Equals(ShipClassType.Research)) && ship.NeedsRescue(CurrentDate))
                 {
-                    sortedFleet.Append(ship);
+                    sortedFleet[i] = ship;
+                    i++;
                 }
             }
             foreach (Ship ship in Fleet)
             {
                 if (!sortedFleet.Contains(ship))
                 {
-                    sortedFleet.Append(ship);
+                    sortedFleet[i] = ship;
+                    i++;
                 }
             }
             return sortedFleet;
@@ -78,12 +81,11 @@ namespace zh_gyak_25._12._02
             Console.WriteLine("Average cargo by ship types:");
             Console.WriteLine($"Cargo: {AverageCargo(ShipClassType.Cargo)}\nMillitary: {AverageCargo(ShipClassType.Military)}\nResearch: {AverageCargo(ShipClassType.Research)}\nMining: {AverageCargo(ShipClassType.Mining)}\nColonilal: {AverageCargo(ShipClassType.Colonial)}\nRescue: {AverageCargo(ShipClassType.Rescue)}");
             Console.WriteLine("Detailed info sorted by risk:");
-            Ship[] sortedFleet = GetShipsGroupedByRisk();
-            foreach (Ship ship in sortedFleet)
+            foreach (Ship ship in GetShipsGroupedByRisk())
             {
                 if(ship != null)Console.WriteLine(ship.GetStatusReport(CurrentDate));
             }
-            Console.WriteLine(Fleet.First().GetStatusReport(CurrentDate));
+            //Console.WriteLine(Fleet.First().GetStatusReport(CurrentDate));
         }
     }
 }
